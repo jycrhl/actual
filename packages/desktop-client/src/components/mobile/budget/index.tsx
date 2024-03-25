@@ -374,11 +374,16 @@ function BudgetInner(props: BudgetInnerProps) {
     dispatch(collapseModals('budget-month-menu'));
   };
 
+  const onSwitchBudgetFile = () => {
+    dispatch(pushModal('budget-list'));
+  };
+
   const onOpenBudgetMonthMenu = month => {
     dispatch(
       pushModal('budget-month-menu', {
         month,
         onToggleHiddenCategories,
+        onSwitchBudgetFile,
         onSwitchBudgetType: _onSwitchBudgetType,
       }),
     );

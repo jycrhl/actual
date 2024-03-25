@@ -15,6 +15,7 @@ type BudgetMonthMenuModalProps = ComponentPropsWithoutRef<
 export function BudgetMonthMenuModal({
   modalProps,
   month,
+  onSwitchBudgetFile,
   onToggleHiddenCategories,
   onSwitchBudgetType,
 }: BudgetMonthMenuModalProps) {
@@ -41,6 +42,7 @@ export function BudgetMonthMenuModal({
       <BudgetMonthMenu
         month={month}
         getItemStyle={() => defaultMenuItemStyle}
+        onSwitchBudgetFile={onSwitchBudgetFile}
         onToggleHiddenCategories={onToggleHiddenCategories}
         onSwitchBudgetType={onSwitchBudgetType}
       />
@@ -53,6 +55,7 @@ type BudgetMonthMenuProps = Omit<
   'onMenuSelect' | 'items'
 > & {
   month: string;
+  onSwitchBudgetFile: () => void;
   onToggleHiddenCategories: () => void;
   onSwitchBudgetType: () => void;
 };
@@ -60,6 +63,7 @@ type BudgetMonthMenuProps = Omit<
 function BudgetMonthMenu({
   // onEditMode,
   month,
+  onSwitchBudgetFile,
   onToggleHiddenCategories,
   onSwitchBudgetType,
   ...props
@@ -71,6 +75,9 @@ function BudgetMonthMenu({
       // case 'edit-mode':
       //   onEditMode?.(true);
       //   break;
+      case 'switch-budget-file':
+        onSwitchBudgetFile?.();
+        break;
       case 'toggle-hidden-categories':
         onToggleHiddenCategories?.();
         break;
@@ -89,6 +96,10 @@ function BudgetMonthMenu({
       items={[
         // Removing for now until we work on mobile category drag and drop.
         // { name: 'edit-mode', text: 'Edit mode' },
+        {
+          name: 'switch-budget-file',
+          text: 'Switch budget file',
+        },
         {
           name: 'toggle-hidden-categories',
           text: 'Toggle hidden categories',
