@@ -1,23 +1,26 @@
 // @ts-strict-ignore
-import React, { type ComponentProps } from 'react';
+import React, { type ComponentPropsWithoutRef } from 'react';
 
 import { useFeatureFlag } from '../../hooks/useFeatureFlag';
 import { SvgArrowThinRight } from '../../icons/v1';
 import { type CSSProperties } from '../../style';
 import { View } from '../common/View';
+import { type Binding } from '../spreadsheet';
 import { CellValue } from '../spreadsheet/CellValue';
 import { useSheetValue } from '../spreadsheet/useSheetValue';
 
 import { makeAmountStyle } from './util';
 
-type BalanceWithCarryoverProps = {
-  carryover: ComponentProps<typeof CellValue>['binding'];
-  balance: ComponentProps<typeof CellValue>['binding'];
-  goal?: ComponentProps<typeof CellValue>['binding'];
-  budgeted?: ComponentProps<typeof CellValue>['binding'];
+type BalanceWithCarryoverProps = Omit<
+  ComponentPropsWithoutRef<typeof CellValue>,
+  'binding'
+> & {
+  carryover: Binding;
+  balance: Binding;
+  goal?: Binding;
+  budgeted?: Binding;
   disabled?: boolean;
   style?: CSSProperties;
-  balanceStyle?: CSSProperties;
   carryoverStyle?: CSSProperties;
 };
 export function BalanceWithCarryover({
@@ -26,9 +29,8 @@ export function BalanceWithCarryover({
   goal,
   budgeted,
   disabled,
-  style,
-  balanceStyle,
   carryoverStyle,
+  ...props
 }: BalanceWithCarryoverProps) {
   const carryoverValue = useSheetValue(carryover);
   const balanceValue = useSheetValue(balance);
@@ -36,8 +38,9 @@ export function BalanceWithCarryover({
   const budgetedValue = useSheetValue(budgeted);
   const isGoalTemplatesEnabled = useFeatureFlag('goalTemplatesEnabled');
   return (
-    <View style={style}>
+    <View>
       <CellValue
+        {...props}
         binding={balance}
         type="financial"
         getStyle={value =>
@@ -53,7 +56,7 @@ export function BalanceWithCarryover({
             cursor: 'pointer',
             ':hover': { textDecoration: 'underline' },
           }),
-          ...balanceStyle,
+          ...props.style,
         }}
       />
       {carryoverValue && (
