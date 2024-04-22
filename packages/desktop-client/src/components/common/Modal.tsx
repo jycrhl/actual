@@ -12,6 +12,7 @@ import React, {
 import { useHotkeysContext } from 'react-hotkeys-hook';
 import ReactModal from 'react-modal';
 
+import { useShrinkFontOnOverflow } from '../../hooks/useShrinkFontSizeOnOverflow';
 import { AnimatedLoading } from '../../icons/AnimatedLoading';
 import { SvgLogo } from '../../icons/logo';
 import { SvgDelete } from '../../icons/v0';
@@ -398,20 +399,11 @@ export function ModalTitle({
 
   // Dynamic font size to avoid ellipsis.
   const textRef = useRef<HTMLSpanElement>();
-  const [textFontSize, setTextFontSize] = useState(25);
-  useEffect(() => {
-    if (shrinkOnOverflow) {
-      const containerWidth = textRef.current.offsetWidth;
-      const textWidth = textRef.current.scrollWidth;
-
-      if (textWidth > containerWidth) {
-        const newFontSize = Math.floor(
-          (containerWidth / textWidth) * textFontSize,
-        );
-        setTextFontSize(newFontSize);
-      }
-    }
-  }, [textFontSize, shrinkOnOverflow]);
+  const textFontSize = useShrinkFontOnOverflow({
+    textRef,
+    initialFontSize: 25,
+    disabled: !shrinkOnOverflow,
+  });
 
   return isEditing ? (
     <Input
