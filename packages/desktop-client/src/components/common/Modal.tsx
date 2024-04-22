@@ -12,7 +12,7 @@ import React, {
 import { useHotkeysContext } from 'react-hotkeys-hook';
 import ReactModal from 'react-modal';
 
-import { useShrinkFontOnOverflow } from '../../hooks/useShrinkFontSizeOnOverflow';
+import { useShrinkFontSizeOnOverflow } from '../../hooks/useShrinkFontSizeOnOverflow';
 import { AnimatedLoading } from '../../icons/AnimatedLoading';
 import { SvgLogo } from '../../icons/logo';
 import { SvgDelete } from '../../icons/v0';
@@ -399,7 +399,7 @@ export function ModalTitle({
 
   // Dynamic font size to avoid ellipsis.
   const textRef = useRef<HTMLSpanElement>();
-  const textFontSize = useShrinkFontOnOverflow({
+  const textFontSize = useShrinkFontSizeOnOverflow({
     textRef,
     initialFontSize: 25,
     disabled: !shrinkOnOverflow,
