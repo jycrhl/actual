@@ -398,9 +398,9 @@ export function ModalTitle({
   }, [isEditing]);
 
   // Dynamic font size to avoid ellipsis.
-  const textRef = useRef<HTMLSpanElement>();
-  const textFontSize = useShrinkFontSizeOnOverflow({
-    textRef,
+  const titleContainerRef = useRef<HTMLSpanElement>();
+  const titleFontSize = useShrinkFontSizeOnOverflow({
+    containerRef: titleContainerRef,
     initialFontSize: 25,
     disabled: !shrinkOnOverflow,
   });
@@ -426,9 +426,9 @@ export function ModalTitle({
     />
   ) : (
     <Text
-      innerRef={textRef}
+      innerRef={titleContainerRef}
       style={{
-        fontSize: textFontSize,
+        fontSize: titleFontSize,
         fontWeight: 700,
         textAlign: 'center',
         whiteSpace: 'nowrap',
